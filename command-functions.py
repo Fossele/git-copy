@@ -7,4 +7,4 @@ def cmd_add(*file_name):
                     pool = 0                    
                     
 def cmd_commit():
-    print("create commit tree")
+    print("create commit")
