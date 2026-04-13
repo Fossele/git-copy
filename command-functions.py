@@ -1,3 +1,5 @@
+import os
+
 def cmd_add(*file_name):
                 if file_name == ".":
                  #stageAllFiles()
@@ -8,3 +10,9 @@ def cmd_add(*file_name):
                     
 def cmd_commit():
     print("create commit")
+    
+def cmd_init():
+    cwd = os.getcwd()
+    mgit_dir = f"{cwd}/.mgit"
+    os.makedirs(mgit_dir)
+    

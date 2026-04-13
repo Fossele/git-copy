@@ -1,3 +1,5 @@
+#https://medium.com/geekculture/understanding-merkle-trees-f48732772199
+#https://medium.com/girl-writes-code/git-is-a-directed-acyclic-graph-and-what-the-heck-does-that-mean-b6c8dec65059
 import hashlib
 import zlib
 import os
@@ -6,38 +8,46 @@ import os
 def convertfilecontentToBytes(file):
     with open(file, "rb") as f:
         content = f.read()
-  #  print("Successful conversion")
+    #  print("Successful conversion")
     return content
 
 
 def createblob(file_name):
     content = convertfilecontentToBytes(file_name)
-    header = f"Blob {content}\x00".encode()
+    header = f"Blob {content}\x00".encode("utf-8")
     combinedata = header + content
     result = hashlib.sha1(combinedata).hexdigest()
     obj_dir = f".mgit/objects/{result[:2]}"
     obj_path = f"{obj_dir}/{result[2:]}"
-    print(obj_path)
+
     os.makedirs(obj_dir, exist_ok=True)
     with open(obj_path, "wb") as f:
         f.write(zlib.compress(combinedata))
     print("blob successfully created")
     print(obj_path)
 
+def read_blob(path):
+    if os.path.isfile(path):
+        file_name = path
+        with open(file_name,"rb") as f:
+            result = zlib.decompress(f.read())
+            result = result.decode("utf-8")
+    print(result)
+
+read_blob(".mgit/objects/72/7a3f43e4d2df134be0242cafec07c5d13f0748")
+        
 
 def createEntries(directory):
-    if os.path.isfile(directory): 
+    if os.path.isfile(directory):
         print("make a node out of")
         createblob(directory)
-        print(directory)
+
     elif os.path.isdir(directory):
-       print("working")
-       for elt in os.listdir(directory):
+        print("working")
+        for elt in os.listdir(directory):
             createEntries(f"{directory}/{elt}")
             print(f"{directory}/{elt}")
-            
-    
-createEntries("test")
+
 
 def createTree(entries):
     # an array of entries in the format [(mode, name, blobfile)]
