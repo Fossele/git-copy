@@ -3,7 +3,7 @@
 import hashlib
 import zlib
 import os
-
+from tree import Tree
 
 def convertfilecontentToBytes(file):
     with open(file, "rb") as f:
@@ -34,7 +34,7 @@ def read_blob(path):
             result = result.decode("utf-8")
     print(result)
 
-read_blob(".mgit/objects/72/7a3f43e4d2df134be0242cafec07c5d13f0748")
+#read_blob(".mgit/objects/72/7a3f43e4d2df134be0242cafec07c5d13f0748")
         
 
 def createEntries(directory):
@@ -62,6 +62,17 @@ def createTree(entries):
     return hashlib.sha1(full_tree).hexdigest()
 
 
+def enterTree(test):
+    node = Tree(os.path.basename(test))
+    print(test)
+    if os.path.isdir(test):
+     for sub_dir in os.listdir(test):
+         item_path = os.path.join(test, sub_dir)
+         node.add_child(enterTree(item_path))
+        
+    return node
+    
+enterTree("test")
 """
 def file_digest(fileObj, digest_type):
     h = hashlib.new(digest_type) if isinstance(digest_type, str) else digest_type()
