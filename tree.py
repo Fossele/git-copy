@@ -14,3 +14,15 @@ class Tree:
                   print(sub_node.data)
                   if sub_node.children:
                       sub_node.traverse()
+                      
+class MerkleTree:
+    def __init__(self, root):
+        self.leaves = []
+        self.root = root
+        
+        
+        
+        
+        
+    
+       

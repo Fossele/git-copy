@@ -23,8 +23,11 @@ def createblob(file_name):
     os.makedirs(obj_dir, exist_ok=True)
     with open(obj_path, "wb") as f:
         f.write(zlib.compress(combinedata))
-    print("blob successfully created")
-    print(obj_path)
+        
+        
+    return(result)
+    #print("blob successfully created")
+    #print(obj_path)
 
 def read_blob(path):
     if os.path.isfile(path):
@@ -32,21 +35,30 @@ def read_blob(path):
         with open(file_name,"rb") as f:
             result = zlib.decompress(f.read())
             result = result.decode("utf-8")
-    print(result)
+    #print(result)
 
 #read_blob(".mgit/objects/72/7a3f43e4d2df134be0242cafec07c5d13f0748")
         
 
 def createEntries(directory):
+    array = []
     if os.path.isfile(directory):
         print("make a node out of")
-        createblob(directory)
-
+        array.append((100644,os.path.basename(directory),createblob(directory)))
+     
     elif os.path.isdir(directory):
         print("working")
         for elt in os.listdir(directory):
-            createEntries(f"{directory}/{elt}")
-            print(f"{directory}/{elt}")
+            elt_path = os.path.join(directory,elt)
+            array.append((600233,os.path.basename(elt_path)))
+            createEntries(elt_path)
+            print(elt_path)
+    return array
+
+
+
+#print(createEntries("test"))
+
 
 
 def createTree(entries):
@@ -56,7 +68,7 @@ def createTree(entries):
     tree_node = b""
     for mode, name, blob_hex in entries:
         blob_bytes = bytes.fromhex(blob_hex)
-        tree_node += f"{mode} {name}/\0".encode("utf-8") + blob_bytes
+        tree_node += f"{mode} {name}\0".encode("utf-8") + blob_bytes
     header = f"tree {len(tree_node)}\0".encode("utf-8")
     full_tree = header + tree_node
     return hashlib.sha1(full_tree).hexdigest()
@@ -68,11 +80,29 @@ def enterTree(test):
     if os.path.isdir(test):
      for sub_dir in os.listdir(test):
          item_path = os.path.join(test, sub_dir)
-         node.add_child(enterTree(item_path))
-        
+         node.add_child(enterTree(item_path))       
     return node
-    
-enterTree("test")
+
+
+def tree_to_list_recursive(directory, result=None):
+    if result is None:
+        result = []
+    if os.path.isdir(directory):
+        #i will change the basename to directory and directory to sha_hex value later
+        result.append((200644,os.path.basename(directory),directory))
+        for elt in os.listdir(directory):
+            elt_path = os.path.join(directory,elt)
+            # Add current node
+            tree_to_list_recursive(elt_path, result)  # Visit left
+        #
+    elif os.path.isfile(directory):
+        
+        
+             result.append((550644,os.path.basename(directory),createblob(directory)))
+    return result
+    ù
+print(tree_to_list_recursive("test"))
+#enterTree("test")
 """
 def file_digest(fileObj, digest_type):
     h = hashlib.new(digest_type) if isinstance(digest_type, str) else digest_type()
