@@ -35,7 +35,7 @@ def read_blob(path):
         with open(file_name,"rb") as f:
             result = zlib.decompress(f.read())
             result = result.decode("utf-8")
-    #print(result)
+    return result
 
 #read_blob(".mgit/objects/72/7a3f43e4d2df134be0242cafec07c5d13f0748")
         
@@ -79,7 +79,7 @@ def enterTree(test):
     print(test)
     if os.path.isdir(test):
      for sub_dir in os.listdir(test):
-         item_path = os.path.join(test, sub_dir)
+         item_path = os.path.join( test, sub_dir)
          node.add_child(enterTree(item_path))       
     return node
 
@@ -89,7 +89,7 @@ def tree_to_list_recursive(directory, result=None):
         result = []
     if os.path.isdir(directory):
         #i will change the basename to directory and directory to sha_hex value later
-        result.append((200644,os.path.basename(directory),directory))
+        result.append((200644, os.path.basename(directory), directory))
         for elt in os.listdir(directory):
             elt_path = os.path.join(directory,elt)
             # Add current node
@@ -98,7 +98,7 @@ def tree_to_list_recursive(directory, result=None):
     elif os.path.isfile(directory):
         
         
-             result.append((550644,os.path.basename(directory),createblob(directory)))
+             result.append((550644, os.path.basename(directory), createblob(directory)))
     return result
     ù
 print(tree_to_list_recursive("test"))
