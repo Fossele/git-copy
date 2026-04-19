@@ -15,17 +15,19 @@ def cmd_commit():
 
 
 def cmd_init():
-    sud_dir = ["refs", "objects", "logs"]
+    sub_dirs = ["refs","refs/head," "objects", "logs"]
     cwd = os.getcwd()
     mgit_dir = os.path.join(cwd, ".mgit")
     if not os.path.exists(mgit_dir):
-       os.makedirs(mgit_dir)
-    print(mgit_dir)
-    for sub in sud_dir:
-        sub_path = os.path.join(mgit_dir, sub)
-        if not os.path.exists(sub_path):
-           os.makedirs(sub_path)
-        print(sub_path)
-
+            os.makedirs(mgit_dir)
+            print(mgit_dir)
+            for sub in sub_dir:
+                sub_path = os.path.join(mgit_dir, sub)
+                if not os.path.exists(sub_path):
+                  os.makedirs(sub_path)
+                  print(sub_path)
+    else: 
+        print("you already initialised this respository {}".format(cwd))
+    
 
 cmd_init()
