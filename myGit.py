@@ -6,30 +6,30 @@ import os
 from tree import Tree
 
 def convertfilecontentToBytes(file):
+    """This functions read a file and returns content in bytes"""
     with open(file, "rb") as f:
         content = f.read()
-    #  print("Successful conversion")
     return content
 
 
 def createblob(file_name):
+    """Turns the content of a file into bytes, creates a header, 
+    hashes the combine value of header  """
     content = convertfilecontentToBytes(file_name)
     header = f"Blob {content}\x00".encode("utf-8")
     combinedata = header + content
     result = hashlib.sha1(combinedata).hexdigest()
     obj_dir = f".mgit/objects/{result[:2]}"
     obj_path = f"{obj_dir}/{result[2:]}"
-
     os.makedirs(obj_dir, exist_ok=True)
     with open(obj_path, "wb") as f:
-        f.write(zlib.compress(combinedata))
-        
-        
+        f.write(zlib.compress(combinedata))        
     return(result)
-    #print("blob successfully created")
-    #print(obj_path)
+
+
 
 def read_blob(path):
+    "this function read the content of a file from a blob's compressed content"
     if os.path.isfile(path):
         file_name = path
         with open(file_name,"rb") as f:
@@ -41,6 +41,7 @@ def read_blob(path):
         
 
 def createEntries(directory):
+    """ not used because it is not yet finished"""
     array = []
     if os.path.isfile(directory):
         print("make a node out of")
@@ -62,6 +63,7 @@ def createEntries(directory):
 
 
 def createTree(entries):
+    """ not used because it is not yet finished"""
     # an array of entries in the format [(mode, name, blobfile)]
     entries.sort(Key=lambda x: x[1])
 
@@ -75,6 +77,7 @@ def createTree(entries):
 
 
 def enterTree(test):
+    """turns a directory and sub directories to nodes thereby forming a tree"""
     node = Tree(os.path.basename(test))
     print(test)
     if os.path.isdir(test):
@@ -85,6 +88,7 @@ def enterTree(test):
 
 
 def tree_to_list_recursive(directory, result=None):
+    """turns a directory  into a entries tuples that can be used  in the createEntries function"""
     if result is None:
         result = []
     if os.path.isdir(directory):
@@ -95,12 +99,11 @@ def tree_to_list_recursive(directory, result=None):
             # Add current node
             tree_to_list_recursive(elt_path, result)  # Visit left
         #
-    elif os.path.isfile(directory):
-        
-        
+    elif os.path.isfile(directory):   
              result.append((550644, os.path.basename(directory), createblob(directory)))
     return result
-    ù
+    
+    
 print(tree_to_list_recursive("test"))
 #enterTree("test")
 """

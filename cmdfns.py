@@ -1,4 +1,6 @@
 import os
+from createRepo import MygitRespostory
+
 
 
 def cmd_add(*file_name):
@@ -14,20 +16,9 @@ def cmd_commit():
     print("create commit")
 
 
-def cmd_init():
-    sub_dirs = ["refs","refs/head," "objects", "logs"]
-    cwd = os.getcwd()
-    mgit_dir = os.path.join(cwd, ".mgit")
-    if not os.path.exists(mgit_dir):
-            os.makedirs(mgit_dir)
-            print(mgit_dir)
-            for sub in sub_dir:
-                sub_path = os.path.join(mgit_dir, sub)
-                if not os.path.exists(sub_path):
-                  os.makedirs(sub_path)
-                  print(sub_path)
-    else: 
-        print("you already initialised this respository {}".format(cwd))
-    
+def cmd_init(path):
+   # sub_dirs = ["refs","refs/heads", "refs/tags", "HEAD" "objects", "logs", "config", "description"]
+    repo = MygitRespostory(path)
+    repo.createGitFolder()
 
-cmd_init()
+cmd_init("test")

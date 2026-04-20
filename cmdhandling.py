@@ -1,18 +1,23 @@
 import argparse
+from cmdfns import *
 
-parser = argparse.ArgumentParser( prog="mgit")
+parser = argparse.ArgumentParser( prog="mygit")
 parser.add_argument("mygit")
 
 subparser = parser.add_subparsers(dest = "command")
-subparser.add_parser("init")
-subparser.add_parser("status")
-subparser.add_parser("push")
-subparser.add_parser("pull")
-subparser.add_parser("add")
-subparser.add_parser("commit")
-subparser.add_parser("log")
-subparser.add_parser("branch")
-subparser.add_parser("checkout")
+
+init_parser = subparser.add_parser("init", help="Innitialise a new,empty repository.")
+init_parser.add_argument("path", nargs="?",default=".", help="Enter a path to initialise.")
+#init_parser.add_argument("")
+
+status_parser = subparser.add_parser("status")
+push_parser = subparser.add_parser("push")
+pull_parser = subparser.add_parser("pull")
+add_parser = subparser.add_parser("add")
+commit_parser = subparser.add_parser("commit")
+log_parser = subparser.add_parser("log")
+branch_parser = subparser.add_parser("branch")
+checkout_parser = subparser.add_parser("checkout")
 
 #sub_parsers = parser.add_subparsers(dest="control")
 
@@ -21,7 +26,7 @@ cmd = args.command
 
 match cmd:
     case "init":
-        print("good dude")
+         cmd_init(args.path)
     case "clone":
         print("great clone")
     case "status":
@@ -43,3 +48,4 @@ match cmd:
     case _:
         print("Too bad, unknown case")
 
+#issue to fix: double running
