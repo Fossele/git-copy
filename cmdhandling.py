@@ -45,12 +45,10 @@ cmd = args.command
 
 """our commands are run from here using this match cases. Also i may turn this file to the main file"""
 match cmd:
-   
     case "init":
          cmd_init(args.path)
-    case "cat-file":
-        
-       cmt_cat(args.object)    
+    case "cat-file":   
+          cmt_cat(args.object)    
        
     
     case "clone":

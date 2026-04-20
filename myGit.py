@@ -36,9 +36,13 @@ def read_object(object, path="."):
         file_name = path
         with open(file_name,"rb") as f:
             result = zlib.decompress(f.read())
-            header, content = result.split(b'\x00')
-           # result = result.decode("utf-8")  
-    print(content.decode("utf-8"))
+            if len(result.split(b'\x00')) == 2: 
+               header, content = result.split(b'\x00')
+               print(content.decode("utf-8"))
+            else:
+                print(result.decode('utf-8'))
+              
+    
     return result
 
 #read_object("727a3f43e4d2df134be0242cafec07c5d13f0748")

@@ -6,7 +6,6 @@ import hashlib
 def convertfilecontentToBytes(file):
     with open(file, "rb") as f:
         content = f.read()
-    #  print("Successful conversion")
     return content
 
 
@@ -110,21 +109,39 @@ for elt in tree_to_list_recursive("test"):
     """
 def blob_tree(node_directory):
     tree = b""
+    final = b""
     if os.listdir(node_directory) or os.path.isfile(node_directory):
      for item in os.listdir(node_directory):
         item_path = os.path.join(node_directory, item)
         
         if os.path.isdir(item_path):
            # tree.append(item_path)
-            tree += f"123000 tree  {blob_tree(item_path).decode('utf-8')} enter directory { item_path }".encode("utf-8")          
-            print(tree.decode("utf-8"))
+            tree += f"123000 tree  {blob_tree(item_path).decode('utf-8')} \n".encode("utf-8") 
+            final = createblobfromtree(tree)
+                     
+            #print(tree.decode("utf-8"))
+            print(final)
             print("\n")
         elif os.path.isfile(item_path):
             tree+= b"300444 blob " + f"{(createblob(item_path))}".encode("utf-8")
-            print(tree.decode("utf-8"))
+            final = createblobfromtree(tree) 
+            #print(tree.decode("utf-8"))
+            print(final)
             print("\n")
-    return  tree
-   
+    return  final
+
+
+def createblobfromtree(tree):
+    result = hashlib.sha1(tree).hexdigest()
+    obj_dir = f".mgit/objects/{result[:2]}"
+    obj_path = f"{obj_dir}/{result[2:]}"
+    
+    os.makedirs(obj_dir, exist_ok=True)
+    print("done")
+    with open(obj_path, "wb") as f:
+        f.write(zlib.compress(tree))
+    return result.encode("utf-8")
+    
              
             
 blob_tree("test")
