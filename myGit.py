@@ -16,7 +16,7 @@ def createblob(file_name):
     """Turns the content of a file into bytes, creates a header, 
     hashes the combine value of header  """
     content = convertfilecontentToBytes(file_name)
-    header = f"Blob {content}\x00".encode("utf-8")
+    header = f"blob {content}\x00".encode("utf-8")
     combinedata = header + content
     result = hashlib.sha1(combinedata).hexdigest()
     obj_dir = f".mgit/objects/{result[:2]}"
@@ -28,16 +28,20 @@ def createblob(file_name):
 
 
 
-def read_blob(path):
-    "this function read the content of a file from a blob's compressed content"
+def read_object(object, path="."):
+    "this function read the content of a file from a object's compressed content"
+ 
+    path = os.path.join(path,".mgit/objects",object[:2], object[2:])
     if os.path.isfile(path):
         file_name = path
         with open(file_name,"rb") as f:
             result = zlib.decompress(f.read())
-            result = result.decode("utf-8")
+            header, content = result.split(b'\x00')
+           # result = result.decode("utf-8")  
+    print(content.decode("utf-8"))
     return result
 
-#read_blob(".mgit/objects/72/7a3f43e4d2df134be0242cafec07c5d13f0748")
+#read_object("727a3f43e4d2df134be0242cafec07c5d13f0748")
         
 
 def createEntries(directory):
@@ -104,7 +108,7 @@ def tree_to_list_recursive(directory=".", result=None):
     return result
     
     
-print(tree_to_list_recursive("test"))
+#print(tree_to_list_recursive("test"))
 #enterTree("test")
 """
 def file_digest(fileObj, digest_type):

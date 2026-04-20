@@ -29,7 +29,7 @@ hash_parser.add_argument("filename", help="Enter the file to hash")
 cat_parser= subparser.add_parser("cat-file")
 cat_parser.add_argument("-t", metavar="type", dest="type", choices=["blob", "tree", "commit", "tag"], default="blob", help="specify the type.")
 cat_parser.add_argument("-w", dest="write", help="write the object into the object database.")
-hash_parser.add_argument("object", help="object to read")
+cat_parser.add_argument("object", help="object to read")
 
 
 
@@ -48,6 +48,11 @@ match cmd:
    
     case "init":
          cmd_init(args.path)
+    case "cat-file":
+        
+       cmt_cat(args.object)    
+       
+    
     case "clone":
         print("great clone")
     case "status":
