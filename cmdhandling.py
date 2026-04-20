@@ -1,6 +1,8 @@
 import argparse
 from cmdfns import *
 
+"""the following are the parsers used to take commands from the user"""
+
 parser = argparse.ArgumentParser( prog="mygit")
 parser.add_argument("mygit")
 
@@ -13,7 +15,11 @@ init_parser.add_argument("path", nargs="?",default=".", help="Enter a path to in
 status_parser = subparser.add_parser("status")
 push_parser = subparser.add_parser("push")
 pull_parser = subparser.add_parser("pull")
+
 add_parser = subparser.add_parser("add")
+add_parser.add_argument("-a", "--all", help="Stages all changes in the entire repository,egardless of your current directory.")
+add_parser.add_argument("filename", nargs="+", help="stages all given files")
+
 commit_parser = subparser.add_parser("commit")
 log_parser = subparser.add_parser("log")
 branch_parser = subparser.add_parser("branch")
@@ -24,7 +30,9 @@ checkout_parser = subparser.add_parser("checkout")
 args = parser.parse_args()
 cmd = args.command
 
+"""our commands are run from here using this match cases. Also i may turn this file to the main file"""
 match cmd:
+   
     case "init":
          cmd_init(args.path)
     case "clone":
@@ -36,7 +44,7 @@ match cmd:
     case "pull":
         print("great pull")
     case "add":
-        print("great add") 
+        pass
     case "commit":
         print("great commit")  
     case "branch":
@@ -48,4 +56,3 @@ match cmd:
     case _:
         print("Too bad, unknown case")
 
-#issue to fix: double running

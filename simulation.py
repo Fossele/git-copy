@@ -23,7 +23,7 @@ def createblob(file_name):
         f.write(zlib.compress(combinedata))
 
     return result
-    # print("blob su
+    
     
 def createhashfromtree(content): 
     header = f"Tree {content}\x00".encode("utf-8")
@@ -65,13 +65,15 @@ def testing2():
        array.append((dirpath, dirnames, filenames))
     return array
 
-
-def treeCreation():
+    """
+    def treeCreation():
     blob_bytes = bytes.fromhex(blob_hex)
     tree_node += f"{mode} {name}\0".encode("utf-8") + blob_bytes
     header = f"tree {len(tree_node)}\0".encode("utf-8")
     full_tree = header + tree_node
     return hashlib.sha1(full_tree).hexdigest()
+    """
+
 
 def tree_to_list_recursive(directory, result=None):
     if result is None:
