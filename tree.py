@@ -1,5 +1,5 @@
 class Tree:
-    "contains data like directories and can be traversed"
+    """contains data like directories and can be traversed"""
     def __init__(self, data):
         self.parent = None
         self.children = []

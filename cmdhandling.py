@@ -18,7 +18,20 @@ pull_parser = subparser.add_parser("pull")
 
 add_parser = subparser.add_parser("add")
 add_parser.add_argument("-a", "--all", help="Stages all changes in the entire repository,egardless of your current directory.")
-add_parser.add_argument("filename", nargs="+", help="stages all given files")
+add_parser.add_argument("filename", nargs="+", help="stages all given files.")
+
+hash_parser= subparser.add_parser("hash-object")
+hash_parser.add_argument("-w", dest="write", help="write the object into the object database.")
+hash_parser.add_argument("-t", metavar="type", dest="type", choices=["blob", "tree", "commit", "tag"], default="blob", help="specify the type.")
+hash_parser.add_argument("filename", help="Enter the file to hash")
+
+
+cat_parser= subparser.add_parser("cat-file")
+cat_parser.add_argument("-t", metavar="type", dest="type", choices=["blob", "tree", "commit", "tag"], default="blob", help="specify the type.")
+cat_parser.add_argument("-w", dest="write", help="write the object into the object database.")
+hash_parser.add_argument("object", help="object to read")
+
+
 
 commit_parser = subparser.add_parser("commit")
 log_parser = subparser.add_parser("log")

@@ -87,7 +87,7 @@ def enterTree(test):
     return node
 
 
-def tree_to_list_recursive(directory, result=None):
+def tree_to_list_recursive(directory=".", result=None):
     """turns a directory  into a entries tuples that can be used  in the createEntries function"""
     if result is None:
         result = []
