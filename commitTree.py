@@ -1,11 +1,12 @@
 #for simplicity i considered only the committer and not the author of the code
 
 class CommitNode:
-    def __init__(self, tree ,committer,parent_commit=[]):
+    def __init__(self, tree ,committer,message, parent_commit=None):
         self.tree = tree
         self.committer = committer
         self.parent_commit = parent_commit
-        self.number_of_branches = len(parent_commit)
+        self.message = message
+       # self.number_of_branches = len(parent_commit)
         
         
     """the parent_commit is pointing to all the possible parents of this commit."""
@@ -31,6 +32,6 @@ class CommitNode:
     
     
         
-first = CommitNode("heyyyyyyy","678tee")
-second = CommitNode("you","678tee")
-third = CommitNode( "678teee","Zen", [first,second]).print_commit()
+first = CommitNode("heyyyyyyy","678tee", "hdhzhdh")
+second = CommitNode("you","678tee", "hdhd")
+#third = CommitNode( "678teee","Zen", [first,second]).print_commit()

@@ -36,7 +36,10 @@ cat_parser.add_argument("object", help="object to read")
 commit_parser = subparser.add_parser("commit")
 log_parser = subparser.add_parser("log")
 branch_parser = subparser.add_parser("branch")
-checkout_parser = subparser.add_parser("checkout")
+
+checkout_parser = subparser.add_parser("checkout", help="checkout a commit")
+checkout_parser.add_argument("commit", help="commit to checkout")
+checkout_parser.add_argument("directory to checkout", help="commit to checkout")
 
 #sub_parsers = parser.add_subparsers(dest="control")
 
@@ -48,9 +51,11 @@ match cmd:
     case "init":
          cmd_init(args.path)
     case "cat-file":   
-          cmt_cat(args.object)    
-       
-    
+          cmd_cat(args.object)    
+    case "hash-object":
+          cmd_hash(args.filename)
+    case "checkout":
+        print("great checkout")  
     case "clone":
         print("great clone")
     case "status":
@@ -65,8 +70,7 @@ match cmd:
         print("great commit")  
     case "branch":
         print("great branch")   
-    case "checkout":
-        print("great checkout")  
+    
     case "log":
         print("great log")
     case _:

@@ -24,7 +24,7 @@ def createblob(file_name):
     os.makedirs(obj_dir, exist_ok=True)
     with open(obj_path, "wb") as f:
         f.write(zlib.compress(combinedata))        
-    return(result)
+    return result
 
 
 
@@ -111,6 +111,7 @@ def tree_to_list_recursive(directory=".", result=None):
              result.append((550644, os.path.basename(directory), createblob(directory)))
     return result
     
+
     
 #print(tree_to_list_recursive("test"))
 #enterTree("test")

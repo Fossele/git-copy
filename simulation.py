@@ -106,25 +106,35 @@ for elt in tree_to_list_recursive("test"):
         elif os.path.isfile(item_path):
             result.append(createblob(item_path))
     return  result
-    """
+        
+        """
+        
 def blob_tree(node_directory):
     tree = b""
     final = b""
+    t_path = ".mgit/Head"
+    # t_path= os.path.join(t_path, "file")
     if os.listdir(node_directory) or os.path.isfile(node_directory):
      for item in os.listdir(node_directory):
         item_path = os.path.join(node_directory, item)
         
         if os.path.isdir(item_path):
            # tree.append(item_path)
-            tree += f"123000 tree  {blob_tree(item_path).decode('utf-8')} \n".encode("utf-8") 
-            final = createblobfromtree(tree)
-                     
+            tree += f"123000 tree {blob_tree(item_path).decode('utf-8')} {item_path}\n".encode("utf-8") 
+                        
+            final = createblobfromtree(tree)    
             #print(tree.decode("utf-8"))
+            with open(t_path, "a") as f:
+                     f.write(tree.decode()) 
             print(final)
             print("\n")
         elif os.path.isfile(item_path):
-            tree+= b"300444 blob " + f"{(createblob(item_path))}".encode("utf-8")
+            tree+= b"300444 blob " + f"{(createblob(item_path))} {item_path}\n".encode("utf-8") 
+             
+                     
             final = createblobfromtree(tree) 
+            with open(t_path, "a") as f:
+                     f.write(tree.decode()) 
             #print(tree.decode("utf-8"))
             print(final)
             print("\n")
