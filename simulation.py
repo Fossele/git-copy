@@ -1,6 +1,7 @@
 import zlib
 import os
 import hashlib
+import json
 
 
 def convertfilecontentToBytes(file):
@@ -90,8 +91,8 @@ def tree_to_list_recursive(directory, result=None):
     return result
     
 
-for elt in tree_to_list_recursive("test"):
-    print(str(elt)+"\n")
+#for elt in tree_to_list_recursive("test"):
+#    print(str(elt)+"\n")
 
 """ 
     def blob_tree(node_directory, result = None):
@@ -131,7 +132,7 @@ def blob_tree(node_directory):
         elif os.path.isfile(item_path):
             tree+= b"300444 blob " + f"{(createblob(item_path))} {item_path}\n".encode("utf-8") 
              
-                     
+            print(item_path)         
             final = createblobfromtree(tree) 
             with open(t_path, "a") as f:
                      f.write(tree.decode()) 
@@ -154,5 +155,34 @@ def createblobfromtree(tree):
     
              
             
-blob_tree("test")
-    
+#blob_tree("test")
+
+def staging(node_directory):
+
+    data = {}
+    if os.listdir(node_directory) or os.path.isfile(node_directory):
+     for item in os.listdir(node_directory):
+        item_path = os.path.join(node_directory, item)
+        
+        if os.path.isdir(item_path):
+           # tree.append(item_path)
+           data.update(staging(item_path))
+                        
+        elif os.path.isfile(item_path):
+            data_elt = {item_path: createblob(item_path)}
+            data.update(data_elt)                
+                    
+    return  data   
+
+data = staging("test")
+
+with open('data.json', 'w') as file:
+            json.dump(data, file, indent=4)
+            print(data)   
+
+
+
+
+
+# 3. Write updated data back to the file
+

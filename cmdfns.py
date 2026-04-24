@@ -1,10 +1,13 @@
 from commitTree import CommitNode
 from createRepo import MygitRespostory
 from myGit import read_object, createblob 
+import json
 
 
 def cmd_add(*file_name):
-   """if the file has """
+   with open("data.json", "r") as f:
+       data = json.load(f)
+       print(data)
    
 def cmd_commit():
     print("create commit")
@@ -18,6 +21,7 @@ def cmd_init(path):
     
 def cmd_cat(obj,path="."):
     content = read_object(obj, path)
+    
     
 def cmd_hash(filename):
     hash = createblob(filename)
@@ -35,4 +39,4 @@ def cmd_log(latest_commit):
          print(latest_commit.parent_commit)
          cmd_log(latest_commit.parent_commit)
   
-cmd_log(commit3)  
+cmd_add("hey.txt")  

@@ -61,3 +61,46 @@
 123000 tree 667c1b6a47433c1fa7ba2bc59f375d26a3f801e2 test/some
 300444 blob eb4eb4742c158e846e73a9bdb0de1ef0f2007eb1 test/text.txt
 123000 tree d65f5442ce458ec7903c68e7e5afaf5895c97cd6 test/were
+300444 blob 8978e7dae6660ad3b2a901111fc80aa74aa903b8 test/cool/hard/heee.txt
+123000 tree a6e1b5e4747ca5404417a5b865af5dd2e9fe8eec test/cool/hard
+123000 tree a6e1b5e4747ca5404417a5b865af5dd2e9fe8eec test/cool/hard
+300444 blob fe1ecff62e5b048722e17a6e2d4c17ef9f1383e1 test/cool/good.txt
+123000 tree b23722c27a97b01c5c55875644e14ea268689b34 test/cool
+123000 tree  test/some/sub_come
+123000 tree  test/some/sub_come
+300444 blob 90207ee64f2df3894873494dd83ca42453d128cc test/some/grey.txt
+123000 tree  test/some/sub_come
+300444 blob 90207ee64f2df3894873494dd83ca42453d128cc test/some/grey.txt
+300444 blob fea42ca550ce4ff198fb27f139944dd9b59a9426 test/some/good.txt
+123000 tree b23722c27a97b01c5c55875644e14ea268689b34 test/cool
+123000 tree 667c1b6a47433c1fa7ba2bc59f375d26a3f801e2 test/some
+123000 tree b23722c27a97b01c5c55875644e14ea268689b34 test/cool
+123000 tree 667c1b6a47433c1fa7ba2bc59f375d26a3f801e2 test/some
+300444 blob eb4eb4742c158e846e73a9bdb0de1ef0f2007eb1 test/text.txt
+300444 blob 727a3f43e4d2df134be0242cafec07c5d13f0748 test/were/grey.txt
+123000 tree b23722c27a97b01c5c55875644e14ea268689b34 test/cool
+123000 tree 667c1b6a47433c1fa7ba2bc59f375d26a3f801e2 test/some
+300444 blob eb4eb4742c158e846e73a9bdb0de1ef0f2007eb1 test/text.txt
+123000 tree d65f5442ce458ec7903c68e7e5afaf5895c97cd6 test/were
+300444 blob 8978e7dae6660ad3b2a901111fc80aa74aa903b8 test/cool/hard/heee.txt
+123000 tree a6e1b5e4747ca5404417a5b865af5dd2e9fe8eec test/cool/hard
+123000 tree a6e1b5e4747ca5404417a5b865af5dd2e9fe8eec test/cool/hard
+300444 blob fe1ecff62e5b048722e17a6e2d4c17ef9f1383e1 test/cool/good.txt
+123000 tree  test/some/sub_come
+123000 tree  test/some/sub_come
+300444 blob 90207ee64f2df3894873494dd83ca42453d128cc test/some/grey.txt
+123000 tree  test/some/sub_come
+300444 blob 90207ee64f2df3894873494dd83ca42453d128cc test/some/grey.txt
+300444 blob fea42ca550ce4ff198fb27f139944dd9b59a9426 test/some/good.txt
+300444 blob 727a3f43e4d2df134be0242cafec07c5d13f0748 test/were/grey.txt
+300444 blob 8978e7dae6660ad3b2a901111fc80aa74aa903b8 test/cool/hard/heee.txt
+123000 tree a6e1b5e4747ca5404417a5b865af5dd2e9fe8eec test/cool/hard
+123000 tree a6e1b5e4747ca5404417a5b865af5dd2e9fe8eec test/cool/hard
+300444 blob fe1ecff62e5b048722e17a6e2d4c17ef9f1383e1 test/cool/good.txt
+123000 tree  test/some/sub_come
+123000 tree  test/some/sub_come
+300444 blob 90207ee64f2df3894873494dd83ca42453d128cc test/some/grey.txt
+123000 tree  test/some/sub_come
+300444 blob 90207ee64f2df3894873494dd83ca42453d128cc test/some/grey.txt
+300444 blob fea42ca550ce4ff198fb27f139944dd9b59a9426 test/some/good.txt
+300444 blob 727a3f43e4d2df134be0242cafec07c5d13f0748 test/were/grey.txt
