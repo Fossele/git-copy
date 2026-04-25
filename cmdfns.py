@@ -1,13 +1,25 @@
 from commitTree import CommitNode
 from createRepo import MygitRespostory
 from myGit import read_object, createblob 
+from simulation import stagingFile
 import json
 
 
-def cmd_add(*file_name):
-   with open("data.json", "r") as f:
-       data = json.load(f)
-       print(data)
+def cmd_add(file_names):
+    data = {}
+    for file_name in file_names:  
+        data.update(stagingFile(file_name))
+   
+   
+    with open("data.json", "r") as file:
+        stagingArea = json.load(file)
+    
+    with open('data.json', 'w') as file:
+           stagingArea.update(data)
+           json.dump(stagingArea, file, indent=4)
+           #print(stagingArea)
+    
+   
    
 def cmd_commit():
     print("create commit")
@@ -39,4 +51,4 @@ def cmd_log(latest_commit):
          print(latest_commit.parent_commit)
          cmd_log(latest_commit.parent_commit)
   
-cmd_add("hey.txt")  
+  

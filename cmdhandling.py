@@ -54,6 +54,10 @@ match cmd:
           cmd_cat(args.object)    
     case "hash-object":
           cmd_hash(args.filename)
+    case "add":
+         cmd_add(args.filename)
+    case "log":
+        print("great log")       
     case "checkout":
         print("great checkout")  
     case "clone":
@@ -64,15 +68,10 @@ match cmd:
         print("great push")   
     case "pull":
         print("great pull")
-    case "add":
-        pass
     case "commit":
         print("great commit")  
     case "branch":
         print("great branch")   
-    
-    case "log":
-        print("great log")
     case _:
         print("Too bad, unknown case")
 
