@@ -5,9 +5,7 @@
     "test/some/good.txt": "fea42ca550ce4ff198fb27f139944dd9b59a9426",
     "test/text.txt": "eb4eb4742c158e846e73a9bdb0de1ef0f2007eb1",
     "test/were/grey.txt": "727a3f43e4d2df134be0242cafec07c5d13f0748",
-    "myGit.py": "18685ab90559d212655da217e91dcbf98333c4ca",
-    "tree.py": "338430e085031e5916b8ea6e09d129d5fb8e7c9b",
-    "hello.txt": "03a374e99eaea5a83833f7e08508550ef4c5fcd6",
-    "data.json": "7f00ef9165d90657e1fc97285ae7612d3f874340",
-    "README.md": "a7a790fa2fe1b14f21f65c8d0f2e180134864707"
+    "commit": "heellll",
+    "author": "Fossele <email>",
+    "message": "heellll"
 }

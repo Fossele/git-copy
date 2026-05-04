@@ -2,6 +2,7 @@ import zlib
 import os
 import hashlib
 import json
+import datetime
 
 
 def convertfilecontentToBytes(file):
@@ -185,7 +186,7 @@ def stagingFile(file_name):
 
 
 
-# data = staging("test")
+data = staging("test")
 
 # with open('data.json', 'w') as file:
 #           json.dump(data, file, indent=4)
@@ -196,3 +197,8 @@ with open("data.json", "r") as file:
 stagingArea
 
 # 3. Write updated data back to the file
+
+
+#with open('commitHistory.json', 'w') as file:
+ #   json.dump(data, file, indent=4)
+#   print(data)
