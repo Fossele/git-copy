@@ -7,7 +7,7 @@ import json
 
 
 
-def cmd_add(file_names):
+def cmd_add(*file_names):
     data = {}
     for file_name in file_names:  
         data.update(stagingFile(file_name))

@@ -46,8 +46,10 @@ checkout_parser.add_argument("directory to checkout", help="commit to checkout")
 args = parser.parse_args()
 cmd = args.command
 
-"""our commands are run from here using this match cases. Also i may turn this file to the main file"""
-match cmd:
+"Here the main commands are executed using match-case"
+
+if __name__ == "__main__":
+ match cmd:
     case "init":
          cmd_init(args.path)
     case "cat-file":   
@@ -57,21 +59,22 @@ match cmd:
     case "add":
          cmd_add(args.filename)
     case "log":
-        print("great log")       
+         cmd_log()      
     case "checkout":
-        print("great checkout")  
+         cmd_checkout()       
     case "clone":
-        print("great clone")
+         cmd_clone()   
     case "status":
-        print("great status")
+        cmd_status()   
     case "push":
-        print("great push")   
+        cmd_push(options)    
     case "pull":
-        print("great pull")
+        cmd_pull(directory)
     case "commit":
-        print("great commit")  
+        cmd_commit()  
     case "branch":
-        print("great branch")   
+        cmd_branch()
+           
     case _:
         print("Too bad, unknown case")
 
