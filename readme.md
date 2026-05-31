@@ -18,7 +18,7 @@ I split the code into two files so that I can change the math without breaking t
 - [ ] Fix the crash when entering a zero.
 - [ ] Create all the missing commands in main.py
 - [ ] implement the staging area
-- [ ] 
+- [ ] add status
 
 ## 5. Thoughts
 - Git status: a function scans all the files/ if the file has the same name as it compared file/ the contents are compared if both are equal the files are tracked, else modified/ when a file in the working tree is not having a match in the index or staging area then it is Untracked. I may not add the option to know by how many commits you are ahead of main
