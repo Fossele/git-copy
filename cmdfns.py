@@ -3,9 +3,12 @@ from createRepo import MygitRespostory
 from myGit import read_object, createblob
 from simulation import stagingFile
 
+
 # import datetime
 import json
+import os
 
+import Index
 
 def cmd_add(*file_names):
     data = {}
@@ -20,6 +23,11 @@ def cmd_add(*file_names):
         json.dump(stagingArea, file, indent=4)
         # print(stagingArea)
 
+
+def cmd_rm(*files, index : Index):
+    pass
+    
+    
 
 def createCommitSha(data):
     return data

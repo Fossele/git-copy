@@ -44,16 +44,35 @@ class Index:
             data = f.read()
 
         content, checksum = data[:-20], data[-20:]
-        
-        assert hashlib.sha1(content).digest() == checksum, "Index file is corrupted. Checksum mismatch."
 
-        signature_string, version_number, num_of_entries = struct.unpack(ENTRY_FORMAT, content[:12] )
+        assert (
+            hashlib.sha1(content).digest() == checksum
+        ), "Index file is corrupted. Checksum mismatch."
+
+        signature_string, version_number, num_of_entries = struct.unpack(
+            ENTRY_FORMAT, content[:12]
+        )
         entries_bytes = content[12:]
 
         assert signature_string == b"DIRC"  # DirCache
         assert version_number == 2, "Mygit  works on version 2"
-        
+
         offset = 12
         for _ in range(num_of_entries):
-            entry, offset = IndexEntry.from_bytes(entry , offset)
+            entry, offset = IndexEntry.from_bytes(entry, offset)
             self.entries[entry.path] = entry
+
+        return entry
+
+    def rm(self, *filenames):
+        self.read()
+        for filename in filenames:
+
+            if filename in self.entries:
+                del self.entries[filename]
+                os.remove(filename)
+
+            else:
+                print(f"fatal: pathspec '{filename}' did not match any files")
+        
+        self.write()
