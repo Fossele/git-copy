@@ -57,7 +57,10 @@ if __name__ == "__main__":
     case "hash-object":
           cmd_hash(args.filename)
     case "add":
-         cmd_add(args.filename)
+        if args.filename != '.':
+            cmd_add(args.filename)
+        else:
+            print('get all files in the system')
     case "log":
          cmd_log()      
     case "checkout":

@@ -25,9 +25,8 @@ def cmd_add(*file_names):
 
 
 def cmd_rm(*files, index : Index):
-    pass
-    
-    
+    index.rm(*files)
+     
 
 def createCommitSha(data):
     return data

@@ -2,6 +2,7 @@ import struct
 import hashlib
 import os
 import IndexEntry
+from myGit import createblob
 
 ENTRY_FORMAT = "!4sII"
 
@@ -13,6 +14,18 @@ ENTRY_FORMAT = "!4sII"
 # Total size = 12 bytes
 
 
+
+def createShaBytes(file_name):
+    with open(file_name, "rb") as f:
+        content = f.read()
+        
+    content_size = len(content)
+    
+    header = f"blob {content_size}\x00".encode("utf-8")
+    combinedata = header + content
+    result = hashlib.sha1(combinedata).digest()
+    return result
+   
 class Index:
     def __init__(self, index_path="./mgit/index"):
         self.index_path = index_path
@@ -62,8 +75,6 @@ class Index:
             entry, offset = IndexEntry.from_bytes(entry, offset)
             self.entries[entry.path] = entry
 
-        return entry
-
     def rm(self, *filenames):
         self.read()
         for filename in filenames:
@@ -74,5 +85,28 @@ class Index:
 
             else:
                 print(f"fatal: pathspec '{filename}' did not match any files")
-        
+
+        self.write()
+
+    def add(self, *file_paths):
+        self.read()
+
+        for file_path in file_paths:
+            createblob(file_path)
+            
+            file_metadata = os.stat(file_path)
+            
+            ctime = file_metadata.st_ctime
+            mtime = file_metadata.st_mtime
+            dev = file_metadata.st_dev
+            ino = file_metadata.st_ino
+            mode = file_metadata.st_mode
+            uid = file_metadata.st_uid
+            gid = file_metadata.st_gid
+            file_size = file_metadata.st_size
+            sha1 = createShaBytes(file_paths)
+            
+            entry = IndexEntry( ctime, mtime, dev, ino, mode, uid, gid, file_size, sha1, file_path)
+            self.entries[file_path] = entry
+            
         self.write()

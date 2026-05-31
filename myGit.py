@@ -17,7 +17,8 @@ def createblob(file_name):
     """Turns the content of a file into bytes, creates a header,
     hashes the combine value of header"""
     content = convertfilecontentToBytes(file_name)
-    header = f"blob {content}\x00".encode("utf-8")
+    content_size = len(content)
+    header = f"blob {content_size}\x00".encode("utf-8")
     combinedata = header + content
     result = hashlib.sha1(combinedata).hexdigest()
     obj_dir = f".mgit/objects/{result[:2]}"
