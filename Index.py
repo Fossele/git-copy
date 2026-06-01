@@ -4,6 +4,7 @@ import os
 from IndexEntry import IndexEntry
 from myGit import createblob
 from pathlib import Path
+from test import tree_to_dictionary_recursive
 
 ENTRY_FORMAT = "!4sII"
 
@@ -31,7 +32,7 @@ class Index:
     def __init__(self, index_path="./mgit/index"):
         self.index_path = index_path
         self.entries = {}
-
+        self.commitable = False
         if not os.path.exists(index_path):
             with open(index_path, "wb") as f:
                 pass
@@ -83,11 +84,11 @@ class Index:
 
         offset = 12
         for _ in range(num_of_entries):
-            print(f"{len(entries_bytes)} and {entries_bytes}")
+
             entry, offset = IndexEntry.from_bytes(entries_bytes, offset)
             self.entries[entry.path] = entry
-            
-        #print(self.entries)
+
+        # print(self.entries)
 
     def rm(self, *filenames):
         self.read()
@@ -104,30 +105,108 @@ class Index:
 
     def add(self, *file_paths):
         self.read()
-        
-        for file_path in file_paths:
-            createblob(file_path)
+        if "." not in file_paths:
 
-            file_metadata = os.stat(file_path)
+            for file_path in file_paths:
 
-            ctime = int(file_metadata.st_ctime)
-            mtime = int(file_metadata.st_mtime)
-            dev = file_metadata.st_dev
-            ino = file_metadata.st_ino
-            mode = file_metadata.st_mode
-            uid = file_metadata.st_uid
-            gid = file_metadata.st_gid
-            file_size = file_metadata.st_size
-            sha1 = createShaBytes(file_path)
+                try:
+                    createblob(file_path)
 
-            entry = IndexEntry(
-                ctime, mtime, dev, ino, mode, uid, gid, file_size, sha1, file_path
-            )
-            self.entries[file_path] = entry
+                    file_metadata = os.stat(file_path)
 
+                    ctime = int(file_metadata.st_ctime)
+                    mtime = int(file_metadata.st_mtime)
+                    dev = file_metadata.st_dev
+                    ino = file_metadata.st_ino
+                    mode = file_metadata.st_mode
+                    uid = file_metadata.st_uid
+                    gid = file_metadata.st_gid
+                    file_size = file_metadata.st_size
+                    sha1 = createShaBytes(file_path)
+                    entry = IndexEntry(
+                        ctime,
+                        mtime,
+                        dev,
+                        ino,
+                        mode,
+                        uid,
+                        gid,
+                        file_size,
+                        sha1,
+                        file_path,
+                    )
+                    self.entries[file_path] = entry
+                except FileNotFoundError:
+                    print(f"The file {file_path} can't be found")
+
+        else:
+
+            all_files = tree_to_dictionary_recursive()
+
+            for file_path, _ in all_files.items():
+                try:
+                    createblob(file_path)
+                    file_metadata = os.stat(file_path)
+                    ctime = int(file_metadata.st_ctime)
+                    mtime = int(file_metadata.st_mtime)
+                    dev = file_metadata.st_dev
+                    ino = file_metadata.st_ino
+                    mode = file_metadata.st_mode
+                    uid = file_metadata.st_uid
+                    gid = file_metadata.st_gid
+                    file_size = file_metadata.st_size
+                    sha1 = createShaBytes(file_path)
+                    entry = IndexEntry(
+                        ctime,
+                        mtime,
+                        dev,
+                        ino,
+                        mode,
+                        uid,
+                        gid,
+                        file_size,
+                        sha1,
+                        file_path,
+                    )
+                    self.entries[file_path] = entry
+                except FileNotFoundError:
+                    print(f"The file {file_path} can't be found")
+
+        self.commitable = True
         self.write()
 
+    def status(self):
+
+        working_dir_files = tree_to_dictionary_recursive()
+        untracked = []
+        unstaged = []
+        for key, value in working_dir_files.items():
+            if key not in self.entries:
+                untracked.append(key)  
+                continue
+            else:
+                if self.entries[key] != value:
+                    unstaged.append(key)
+                
+                
+                """On branch main
+                Your branch is ahead of 'origin/main' by X commits.
+                (use "git push" to publish your local commits)
+
+                Changes not staged for commit:
+                (use "git add <file>..." to update what will be committed)
+                (use "git restore <file>..." to discard changes in working directory)
+                        modified:   Index.py
+
+                Untracked files:
+                (use "git add <file>..." to include in what will be committed).
+                """
+
     def commit(self, message):
+        if not self.commitable:
+            self.status()
+            return
+
         self.read()
 
         # 1. convert entries into to a nested tree
@@ -137,5 +216,5 @@ class Index:
 
 index = Index(".test")
 index.write()
-index.add("myGit.py")
+index.add(".")
 index.read()
