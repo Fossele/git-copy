@@ -12,11 +12,12 @@ import hashlib
     # 20s = SHA-1 hash (20 bytes)
     # H = path_length (2 bytes unsigned short)
     # Total: 8+8+4+4+4+4+4+4+20+2 = 62 bytes
-METADATA_FORMAT = "!qqiIIIII20sH"
-METADATA_SIZE = 62
+
 
 
 class IndexEntry:
+    METADATA_FORMAT = "!qqiIIIII20sH"
+    METADATA_SIZE = 62
     def __init__(self, ctime, mtime, dev, ino, mode, uid, gid, file_size, sha1, path):
         self.ctime = ctime
         self.mtime = mtime
@@ -33,7 +34,7 @@ class IndexEntry:
     def to_bytes(self) -> bytes:
         path_bytes = self.path.encode("utf-8")
         path_len = len(path_bytes)
-        header_data_bytes = struct.pack(METADATA_FORMAT, self.ctime, self.mtime,self.dev, self.ino, self.mode,  self.uid ,self.gid, self.file_size, self.sha1, path_len)
+        header_data_bytes = struct.pack(self.METADATA_FORMAT, self.ctime, self.mtime,self.dev, self.ino, self.mode,  self.uid ,self.gid, self.file_size, self.sha1, path_len)
         entry_data_bytes = header_data_bytes + path_bytes
         return entry_data_bytes
 
@@ -59,5 +60,5 @@ class IndexEntry:
             path = path
         )
         
-        offset += METADATA_SIZE + path_len  
+        offset += cls.METADATA_SIZE + path_len  
         return entry, offset
