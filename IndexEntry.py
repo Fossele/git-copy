@@ -40,11 +40,12 @@ class IndexEntry:
 
     @classmethod
     def from_bytes(cls, data: bytes, offset: int) -> tuple["IndexEntry", int]:
+       
         metadata = struct.unpack_from(cls.METADATA_FORMAT, data, offset)
         path_len = metadata[9]
         path_start = offset + cls.METADATA_SIZE
         path_end = path_start + path_len 
-        path_bytes = data[path_start, path_end]
+        path_bytes = data[path_start: path_end]
         path = path_bytes.decode('utf-8')
         
         entry = cls(

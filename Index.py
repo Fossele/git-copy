@@ -76,13 +76,14 @@ class Index:
         signature_string, version_number, num_of_entries = struct.unpack(
             ENTRY_FORMAT, content[:12]
         )
-        entries_bytes = content[12:]
+        entries_bytes = content
 
         assert signature_string == b"DIRC"  # DirCache
         assert version_number == 2, "Mygit  works on version 2"
 
         offset = 12
         for _ in range(num_of_entries):
+            print(f"{len(entries_bytes)} and {entries_bytes}")
             entry, offset = IndexEntry.from_bytes(entries_bytes, offset)
             self.entries[entry.path] = entry
             
