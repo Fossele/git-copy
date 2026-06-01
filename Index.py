@@ -96,8 +96,8 @@ class Index:
             
             file_metadata = os.stat(file_path)
             
-            ctime = file_metadata.st_ctime
-            mtime = file_metadata.st_mtime
+            ctime = int(file_metadata.st_ctime)
+            mtime = int(file_metadata.st_mtime)
             dev = file_metadata.st_dev
             ino = file_metadata.st_ino
             mode = file_metadata.st_mode
@@ -110,3 +110,9 @@ class Index:
             self.entries[file_path] = entry
             
         self.write()
+    def commit(self, message):
+        self.read()
+        
+        # 1. convert entries into to a nested tree
+        # 2. turn the nested tree into the commit
+        

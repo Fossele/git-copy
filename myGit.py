@@ -128,8 +128,8 @@ def file_digest(fileObj, digest_type):
 filename = "text.txt"
 
 with open(filename, "rb") as f:
-     combinedata = filename.encode("utf-8") + f.read()
-     digest = file_digest(combinedata, "sha1")
+        combinedata = filename.encode("utf-8") + f.read()
+        digest = file_digest(combinedata, "sha1")
 
 print(digest.hexdigest())
     """
