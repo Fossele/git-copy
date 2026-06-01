@@ -4,7 +4,7 @@ import os
 from IndexEntry import IndexEntry
 from myGit import createblob
 from pathlib import Path
-from test import tree_to_dictionary_recursive
+from test import tree_to_dictionary_recursive, flat_to_tree
 
 ENTRY_FORMAT = "!4sII"
 
@@ -65,10 +65,6 @@ class Index:
             data = f.read()
 
         content, checksum = data[:-20], data[-20:]
-        print(content)
-        print(hashlib.sha1(content).digest())
-        print(checksum)
-
         if content != b"":
             assert (
                 hashlib.sha1(content).digest() == checksum
@@ -202,19 +198,23 @@ class Index:
                 (use "git add <file>..." to include in what will be committed).
                 """
 
-    def commit(self, message):
+    def commit(self):
         if not self.commitable:
             self.status()
             return
 
         self.read()
-
+        nested_tree = flat_to_tree(self.entries)
+        
+        
         # 1. convert entries into to a nested tree
         # 2. turn the nested tree into the commit
-        print(self.entries)
-
+        #print(self.entries)
+        
+        self.commitable = False 
 
 index = Index(".test")
 index.write()
 index.add(".")
+index.commit()
 index.read()

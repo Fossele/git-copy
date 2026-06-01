@@ -2,6 +2,7 @@
 from createRepo import MygitRespostory
 from myGit import read_object, createblob
 from simulation import stagingFile
+from Index import Index
 
 
 # import datetime
@@ -71,10 +72,8 @@ def cmd_hash(filename):
     print(hash)
 
 
-def cmd_status():
-    print("Changes not staged for commit: ")
-    print("Changes not tracked: ")
-    print("Changes to be commited: ")
+def cmd_status(index: Index):
+    index.status()
 
 
 cmd_commit()

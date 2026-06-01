@@ -40,19 +40,24 @@ def tree_to_dictionary_recursive(directory=".", result=None):
 
 flat_dict = tree_to_dictionary_recursive("test")
 
-tree = {}
+def flat_to_tree(flat_dict):
+    "turn a flat dictionary into a nested tree"
+    tree = {}
 
-for path, sha in flat_dict.items():
-    parts = path.split("/")  # e.g., ['test', 'cool', 'good.txt']
-    current = tree
+    for path, sha in flat_dict.items():
+        parts = path.split("/")  # e.g., ['test', 'cool', 'good.txt']
+        current = tree
 
-    # 1. Traverse or create the directory folders
-    for folder in parts[:-1]:
-        current = current.setdefault(folder, {})
+        # 1. Traverse or create the directory folders
+        for folder in parts[:-1]:
+            current = current.setdefault(folder, {})
 
-    # 2. Place the file name and its hash at the final leaf node
-    file_name = parts[-1]
-    current[file_name] = sha
+        # 2. Place the file name and its hash at the final leaf node
+        file_name = parts[-1]
+        current[file_name] = sha
+    print(tree)
+        
+    return tree
 
 
 def flatten_tree(tree, current_path=""):
@@ -71,4 +76,4 @@ def flatten_tree(tree, current_path=""):
     return flat
 
 
-print(tree)
+
