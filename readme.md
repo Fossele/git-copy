@@ -15,8 +15,8 @@ This is a git-clone project.
 I split the code into two files so that I can change the math without breaking the user interface.
 
 ## 4. Current Bugs / To-Do
-- [ ] fix bug when running python3 Index.py
-- [ ] build a commit from Index by turning the nested tree dictionary to a tree object
+- [ ] fix bug when running python3 Index.py.
+- [ ] build a commit from Index by turning the nested tree dictionary to a tree object.
 
 # 5. Thoughts
 - Git status: a function scans all the files/ if the file has the same name as it compared file/ the contents are compared if both are equal the files are tracked, else modified/ when a file in the working tree is not having a match in the index or staging area then it is Untracked. I may not add the option to know by how many commits you are ahead of main
