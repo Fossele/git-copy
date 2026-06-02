@@ -176,6 +176,7 @@ class Index:
         working_dir_files = tree_to_dictionary_recursive()
         untracked = []
         unstaged = []
+        print("status")
         for key, value in working_dir_files.items():
             if key not in self.entries:
                 untracked.append(key)  
@@ -202,19 +203,20 @@ class Index:
         if not self.commitable:
             self.status()
             return
-
-        self.read()
-        nested_tree = flat_to_tree(self.entries)
-        
-        
-        # 1. convert entries into to a nested tree
-        # 2. turn the nested tree into the commit
-        #print(self.entries)
-        
-        self.commitable = False 
+        else:
+            self.read()
+            nested_tree = flat_to_tree(self.entries)
+            #print(nested_tree)
+            print("I worked")
+            
+            # 1. convert entries into to a nested tree
+            # 2. turn the nested tree into the commit
+            #print(self.entries)
+            
+            self.commitable = False 
 
 index = Index(".test")
 index.write()
 index.add(".")
-index.commit()
+#index.commit()
 index.read()
