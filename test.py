@@ -55,7 +55,7 @@ def flat_to_tree(flat_dict):
         # 2. Place the file name and its hash at the final leaf node
         file_name = parts[-1]
         current[file_name] = sha
-    print(tree)
+
         
     return tree
 
