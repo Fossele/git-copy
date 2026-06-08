@@ -1,5 +1,8 @@
 import os
+import hashlib
+import pwd
 from myGit import createblob
+#from simulation import createblobfromtree
 
 
 def createEntries(directory):
@@ -40,6 +43,7 @@ def tree_to_dictionary_recursive(directory=".", result=None):
 
 flat_dict = tree_to_dictionary_recursive("test")
 
+
 def flat_to_tree(flat_dict):
     "turn a flat dictionary into a nested tree"
     tree = {}
@@ -56,7 +60,6 @@ def flat_to_tree(flat_dict):
         file_name = parts[-1]
         current[file_name] = sha
 
-        
     return tree
 
 
@@ -76,4 +79,135 @@ def flatten_tree(tree, current_path=""):
     return flat
 
 
+def blob_tree_from_dict(dictionary):
+    "creates blobs(sha values) for folders and files recursively out of a given nested dict."
+    tree = b""
+    blobValue = b""
+    destination_path = ".mgit/Dest"
 
+    if isinstance(dictionary, dict):
+        for key, value in dictionary.items():
+
+            if isinstance(value, dict):
+                tree += f"123000 tree {blob_tree_from_dict(item_path).decode('utf-8')} {item_path}\n".encode(
+                    "utf-8"
+                )
+
+                blobValue = createblobfromtree(tree)
+                # print(tree.decode("utf-8"))
+                with open(destination_path, "a") as f:
+                    f.write(tree.decode())
+                print(blobValue)
+                print("\n")
+
+            else:
+                tree += (
+                    b"300444 blob "
+                    + f"{(createblob(item_path))} {item_path}\n".encode("utf-8")
+                )
+
+                print(item_path)
+                blobValue = createblobfromtree(tree)
+                with open(destination_path, "a") as f:
+                    f.write(tree.decode())
+                # print(tree.decode("utf-8"))
+                print(blobValue)
+                print("\n")
+    else:
+        blobValue = value
+
+    return blobValue
+
+
+def blob_tree_from_dict(node_directory):
+    "creates blobs(sha values) for folders and files recursively out of a given nested dict."
+    tree = b""
+    final = b""
+    t_path = ".mgit/Head"
+    # t_path= os.path.join(t_path, "file")
+    if os.listdir(node_directory) or os.path.isfile(node_directory):
+        for item in os.listdir(node_directory):
+            item_path = os.path.join(node_directory, item)
+
+            if os.path.isdir(item_path):  # if dir is node, recurse
+                # tree.append(item_path)
+                tree += f"123000 tree {blob_tree_from_dict(item_path).decode('utf-8')} {item_path}\n".encode(
+                    "utf-8"
+                )
+
+                final = createblobfromtree(tree)
+                # print(tree.decode("utf-8"))
+                with open(t_path, "a") as f:
+                    f.write(tree.decode())
+                print(final)
+                print("\n")
+            elif os.path.isfile(item_path):
+                tree += (
+                    b"300444 blob "
+                    + f"{(createblob(item_path))} {item_path}\n".encode("utf-8")
+                )
+
+                print(item_path)
+                final = createblobfromtree(tree)
+                with open(t_path, "a") as f:
+                    f.write(tree.decode())
+                # print(tree.decode("utf-8"))
+                print(final)
+                print("\n")
+    return final
+
+
+def createTreefromDict(nested_dict, current_path=""):
+    path = ""
+    tree = b""
+    for key, value in nested_dict.items():
+
+        new_path = os.path.join(current_path, key) if current_path else key
+        if isinstance(value, dict):
+            tree += f"110 tree  {createTreefromDict(value, new_path).decode('utf-8')}\n".encode('utf-8')
+            
+        else:
+            tree +=  b"300444 blob "+ f"{value}\n".encode("utf-8")
+                
+        
+    print(tree.decode('utf-8'))
+    return hashlib.sha1(tree).hexdigest().encode("utf-8")
+
+
+
+
+
+nested_tree = {
+    "src": {
+        "components": {
+            "Button.js": "ann",
+            "Header.js": "hhaas",
+        },
+        "utils": {"helpers.js": "hhhs"},
+        "index.js": "hhsahh",
+    },
+    "package.json": "hallo",
+}
+
+def get_user_email():
+    email = os.environ.get('EMAIL')
+    print(email)
+
+def get_linux_user_info():
+    # Obtain the numeric user ID of the current process
+    uid = os.getuid()
+    # Query system database for user details
+    user_entry = pwd.getpwuid(uid)
+    
+    username = user_entry.pw_name
+    # The gecos field typically stores the user's Full Name
+    full_name = user_entry.pw_gecos.split(',')[0]
+    
+    # System mail configurations default locally or look at $EMAIL variable
+    email = os.environ.get('EMAIL') or f"{username}@localhost"
+    
+    print(f"Username: {username}")
+    print(f"Full Real Name: {full_name}")
+    print(f"System Email: {email}")
+
+get_linux_user_info()

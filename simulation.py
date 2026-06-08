@@ -114,6 +114,7 @@ def tree_to_list_recursive(directory, result=None):
 
 
 def blob_tree(node_directory):
+    "creates blobs(sha values) for folders and files recursively out of a given folder."
     tree = b""
     final = b""
     t_path = ".mgit/Head"

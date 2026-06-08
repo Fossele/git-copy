@@ -1,11 +1,11 @@
 import struct
 import hashlib
-import os
+import os, pwd, time, datetime
+import configparser
 from IndexEntry import IndexEntry
 from myGit import createblob
 from pathlib import Path
-from test import tree_to_dictionary_recursive, flat_to_tree
-
+from test import tree_to_dictionary_recursive, flat_to_tree, createTreefromDict
 ENTRY_FORMAT = "!4sII"
 
 # Meaning of "!4sII":
@@ -199,21 +199,49 @@ class Index:
                 (use "git add <file>..." to include in what will be committed).
                 """
 
-    def commit(self):
+    def commit(self, message):
         if not self.commitable:
             self.status()
             return
         else:
             self.read()
             nested_tree = flat_to_tree(self.entries)
-            #print(nested_tree)
-            print("I worked")
+            main_tree = createTreefromDict(nested_tree) #just blob sha the results from this algorithm
             
+            uid = os.getuid()
+            user_entry = pwd.getpwuid(uid)
+            username = user_entry.pw_name
+            
+            config = configparser.ConfigParser()
+            
+            config.read('.mgit/config')
+            
+            username = config['user']['name']
+            email = config['user']['email']
+            
+            exact_timestamp = time.time()
+            unix_timestamp = int(exact_timestamp)
+            
+            local_time = datetime.now().astimezone()
+            offset = local_time.strftime("%z")
+            
+            
+            line1 = f"tree {main_tree} \n"
+            line2 = f"parent 1a2b3c4d5e6f7g8h9i0j1k2l3m4n5o6p7q8r9s0t \n" 
+            line3 = f"author {username} <{email}> {unix_timestamp} {offset} \n"
+            line4 = f"committer  {username} <{email}> {unix_timestamp} {offset}  \n"
+            
+            result = "{} {} {} {} {}".format(line1, line2, line3, line4, message)
+            
+            print(result)
+            #print(nested_tree)
             # 1. convert entries into to a nested tree
             # 2. turn the nested tree into the commit
             #print(self.entries)
             
             self.commitable = False 
+            
+            
 
 index = Index(".test")
 index.write()

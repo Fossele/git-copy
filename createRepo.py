@@ -1,5 +1,5 @@
 import os
-
+import configparser
 # import configparser (though for later use, it will be needed for git configurations such as name, emails, authentication etc)
 
 
@@ -69,6 +69,18 @@ class MygitRespostory(object):
                 elif path == self.git_index_path:
                     with open(path, "w") as f:
                         f.write("staging area")
+                        
+                elif path == self.git_config_path:
+                    config = configparser.ConfigParser()
+                    
+                    config['user'] = {
+                        'name': 'Fossele',
+                        'email': 'fosseletazon@gmail.com'
+                    }
+                    
+                    with open(path, "w") as configfile:
+                        config.write(configfile)
+                        
 
                 elif path == self.git_description_path:
                     with open(path, "w") as f:
